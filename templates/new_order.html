@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Order</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #d32f2f;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        .menu-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>New Order</h1>
+    <form method="POST" action="{{ url_for('new_order') }}">
+        <label for="customer_name">Customer Name:</label>
+        <input type="text" name="customer_name" id="customer_name" required>
+        <br>
+        <label for="dish_ids">Dish IDs (comma-separated):</label>
+        <input type="text" name="dish_ids" id="dish_ids" required>
+        <br>
+        <div id="menu">
+            <h3>Menu</h3>
+            {% for dish in menu %}
+            <div class="menu-item">
+                <input type="checkbox" name="dish_ids" value="{{ dish.id }}" onchange="updateDishIds()">
+                <span class="dish-name">{{ dish.name }}</span>
+                <span class="dish-price">{{ dish.price }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        <input type="submit" value="Place Order">
+    </form>
+    <a href="{{ url_for('index') }}">Go Back</a>
+
+    <script>
+        function updateDishIds() {
+            var selectedDishIds = [];
+            var checkboxes = document.getElementsByName('dish_ids');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    selectedDishIds.push(checkboxes[i].value);
+                }
+            }
+            document.getElementById('dish_ids').value = selectedDishIds.join(',');
+        }
+    </script>
+</body>
+</html>

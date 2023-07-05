@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zomato Chronicles: The Great Food Fiasco</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+</head>
+<body>
+    <h1>Zomato Chronicles: The Great Food Fiasco</h1>
+    <ul>
+        <li><a href="{{ url_for('show_menu') }}">Menu</a></li>
+        <li><a href="{{ url_for('add_dish') }}">Add Dish</a></li>
+        <li><a href="{{ url_for('confirm_remove', dish_id=1) }}">Remove Dish</a></li>
+
+        <li><a href="{{ url_for('index') }}">Update Availability</a></li>
+        <li><a href="{{ url_for('new_order') }}">New Order</a></li>
+        <li><a href="{{ url_for('index') }}">Update Status</a></li>
+        <li><a href="{{ url_for('show_orders') }}">Orders</a></li>
+        <li><a href="{{ url_for('index') }}">Exit</a></li>
+    </ul>
+</body>
+</html>

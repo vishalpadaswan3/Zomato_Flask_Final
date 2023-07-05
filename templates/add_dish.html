@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Dish</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"] {
+            margin-top: 10px;
+        }
+
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #d32f2f;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Add Dish</h1>
+    <form method="POST" action="{{ url_for('add_dish') }}">
+        <label for="dish_name">Dish Name:</label>
+        <input type="text" name="dish_name" id="dish_name" required><br>
+        <br>
+        <label for="price">Price:</label>
+        <input type="number" name="price" id="price" step="0.01" required><br>
+        <br>
+        <label for="availability">Availability:</label>
+        <input type="checkbox" name="availability" id="availability">
+        <br>
+        <input type="submit" value="Add Dish">
+    </form>
+    <a href="{{ url_for('index') }}">Go Back</a>
+</body>
+
+</html>

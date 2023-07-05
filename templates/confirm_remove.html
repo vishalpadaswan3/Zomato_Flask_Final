@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirm Removal</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+<body>
+    <h1>Confirm Removal</h1>
+    <p>Are you sure you want to remove dish with ID: {{ dish_id }}?</p>
+    <form method="POST">
+        <input type="submit" value="Confirm">
+        <a href="{{ url_for('show_menu') }}">Cancel</a>
+    </form>
+</body>
+</html>
