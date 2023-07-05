@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Availability</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Update Availability</h1>
+    <table id="menu-table">
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Availability</th>
+            <th>Actions</th>
+        </tr>
+        {% for dish in menu %}
+        <tr>
+            <td>{{ dish.dish_name }}</td>
+            <td>{{ dish.price }}</td>
+            <td>
+                <span id="availability-{{ dish.id }}">{{ dish.availability }}</span>
+            </td>
+            <td>
+                <form id="update-form-{{ dish.id }}">
+                    <input type="hidden" name="dish_id" value="{{ dish.id }}">
+                    <button type="submit" class="update-button">Update</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('show_menu') }}">Go Back</a>
+
+    <!-- Include the Socket.IO library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+
+    <script>
+        // Connect to the WebSocket server
+        const socket = io();
+
+        // Event handler for receiving availability updates
+        socket.on('availability_update', function (data) {
+            // Update the availability for the specific dish
+            const availabilitySpan = document.getElementById(`availability-${data.dish_id}`);
+            availabilitySpan.textContent = data.availability;
+        });
+
+        // Event listener for form submission
+        const updateForms = document.querySelectorAll('form[id^="update-form-"]');
+        updateForms.forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // Get the dish ID from the form
+                const dishId = form.querySelector('input[name="dish_id"]').value;
+
+                // Emit an event to update the availability on the server
+                socket.emit('update_availability', { dish_id: dishId });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Menu</h1>
+    <h1>Zomato Chronicles: The Great Food Fiasco</h1>
     <table id="menu-table">
         <tr>
             <th>ID</th>
@@ -16,14 +16,54 @@
         </tr>
         {% for dish in menu %}
         <tr>
-            <td>{{ dish['id'] }}</td>
-            <td>{{ dish['name'] }}</td>
-            <td>{{ dish['price'] }}</td>
-            <td>{{ dish['availability'] }}</td>
-            <td><a href="{{ url_for('remove_dish', dish_id=dish['id']) }}">Remove</a></td>
+            <td>{{ dish.dish_name }}</td>
+            <td>{{ dish.id }}</td>
+            <td>{{ dish.price }}</td>
+            <td>{{ dish.availability }}</td>
+            <td><a href="{{ url_for('confirm_remove', dish_id=dish.id) }}">Remove</a></td>
         </tr>
         {% endfor %}
     </table>
     <a href="{{ url_for('index') }}">Go Back</a>
+
+    <div id="chat-container">
+        <div id="chat-messages"></div>
+        <div id="user-input">
+            <input type="text" id="user-query" placeholder="Enter your query">
+            <button id="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var userQuery = document.getElementById('user-query').value;
+            if (userQuery.trim() !== '') {
+                var chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML += '<p class="user-message">' + userQuery + '</p>';
+                scrollToBottom(chatMessages);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/chatbot', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText).response;
+                        chatMessages.innerHTML += '<p class="bot-message">' + response + '</p>';
+                        scrollToBottom(chatMessages);
+                    }
+                };
+
+                var data = JSON.stringify({ message: userQuery });
+                xhr.send(data);
+
+                document.getElementById('user-query').value = '';
+            }
+        }
+
+        function scrollToBottom(element) {
+            element.scrollTop = element.scrollHeight;
+        }
+    </script>
 </body>
 </html>

@@ -80,7 +80,7 @@
             {% for dish in menu %}
             <div class="menu-item">
                 <input type="checkbox" name="dish_ids" value="{{ dish.id }}" onchange="updateDishIds()">
-                <span class="dish-name">{{ dish.name }}</span>
+                <span class="dish-name">{{ dish.dish_name }}</span>
                 <span class="dish-price">{{ dish.price }}</span>
             </div>
             {% endfor %}

@@ -3,21 +3,62 @@
 <head>
     <title>Zomato Chronicles: The Great Food Fiasco</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-
-
 </head>
 <body>
     <h1>Zomato Chronicles: The Great Food Fiasco</h1>
     <ul>
         <li><a href="{{ url_for('show_menu') }}">Menu</a></li>
         <li><a href="{{ url_for('add_dish') }}">Add Dish</a></li>
-        <li><a href="{{ url_for('confirm_remove', dish_id=1) }}">Remove Dish</a></li>
-
-        <li><a href="{{ url_for('index') }}">Update Availability</a></li>
+        <li><a href="{{ url_for('confirm_remove', dish_id='dish_id_here') }}">Remove Dish</a></li>
+        <li><a href="{{ url_for('update_avail') }}">Update Availability</a></li>
         <li><a href="{{ url_for('new_order') }}">New Order</a></li>
-        <li><a href="{{ url_for('index') }}">Update Status</a></li>
         <li><a href="{{ url_for('show_orders') }}">Orders</a></li>
-        <li><a href="{{ url_for('index') }}">Exit</a></li>
+        <li><a href="{{ url_for('exit_app') }}">Exit</a></li>
     </ul>
+
+    <div class="imagevp">
+        <img src="https://bubblycious.co.uk/img/delivery_boy.gif" alt="">
+    </div>
+
+    <div id="chat-container">
+        <div id="chat-messages"></div>
+        <div id="user-input">
+            <input type="text" id="user-query" placeholder="Enter your query">
+            <button id="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var userQuery = document.getElementById('user-query').value;
+            if (userQuery.trim() !== '') {
+                var chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML += '<p class="user-message">' + userQuery + '</p>';
+                scrollToBottom(chatMessages);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/chatbot', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText).response;
+                        chatMessages.innerHTML += '<p class="bot-message">' + response + '</p>';
+                        scrollToBottom(chatMessages);
+                    }
+                };
+
+                var data = JSON.stringify({ message: userQuery });
+                xhr.send(data);
+
+                document.getElementById('user-query').value = '';
+            }
+        }
+
+        function scrollToBottom(element) {
+            element.scrollTop = element.scrollHeight;
+        }
+    </script>
+
 </body>
 </html>

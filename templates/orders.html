@@ -46,7 +46,7 @@
         <tr>
             <th>ID</th>
             <th>Customer Name</th>
-            <th>Dish IDs</th>
+            <th>Token No.</th>
             <th>Status</th>
         </tr>
         {% for order in orders %}
@@ -54,15 +54,15 @@
             <td>{{ order.id }}</td>
             <td>{{ order.customer_name }}</td>
             <td>
-                {% for dish in order.dishes %}
-                {{ dish.id }}
-                {% if not loop.last %}, {% endif %}
-                {% endfor %}
+                {{order._id}}
             </td>
             <td>{{ order.status }}</td>
         </tr>
         {% endfor %}
     </table>
     <a href="{{ url_for('index') }}">Go Back</a>
+    <a href="{{ url_for('feedback') }}">Give feedback</a>
+    
+    
 </body>
 </html>
