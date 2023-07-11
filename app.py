@@ -11,7 +11,6 @@ client = MongoClient('mongodb+srv://vishalpadaswan3:vishal@cluster0.907cq.mongod
 db = client['zomatoAIdata']
 
 # Model class for menu item
-# Model class for menu item
 class MenuItem:
     def __init__(self, id, dish_name, price, availability):
         self.id = id
